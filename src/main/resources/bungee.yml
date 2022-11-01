@@ -1,0 +1,6 @@
+name: AnyBan
+version: '${project.version}'
+main: com.github.tsuoihito.anyban.AnyBan
+author: tsuoihito
+description: You can ban anyone, anytime
+softDepends: [ floodgate ]
