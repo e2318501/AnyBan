@@ -24,9 +24,9 @@ class UnBanIpCommand(private val plugin: AnyBan) : Command("aunban-ip", "anyban.
         CompletableFuture.runAsync { plugin.saveData() }
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String>? {
+    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
             getPlayersCandidate(plugin.userUuidList, args[0])
-        } else null
+        } else listOf()
     }
 }

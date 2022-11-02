@@ -30,9 +30,9 @@ class IsBanCommand(private val plugin: AnyBan) : Command("aisban", "anyban.comma
         )
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String>? {
+    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
             getBannedPlayersCandidate(plugin.bannedPlayerList, args[0])
-        } else null
+        } else listOf()
     }
 }

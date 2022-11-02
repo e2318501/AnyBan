@@ -31,9 +31,9 @@ class IsBanIpCommand(private val plugin: AnyBan) : Command("aisban-ip", "anyban.
         )
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String>? {
+    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
             getPlayersCandidate(plugin.userUuidList, args[0])
-        } else null
+        } else listOf()
     }
 }

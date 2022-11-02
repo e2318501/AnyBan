@@ -22,9 +22,9 @@ class UnBanCommand(private val plugin: AnyBan) : Command("aunban", "anyban.comma
         CompletableFuture.runAsync { plugin.saveData() }
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String>? {
+    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
             getBannedPlayersCandidate(plugin.bannedPlayerList, args[0])
-        } else null
+        } else listOf()
     }
 }

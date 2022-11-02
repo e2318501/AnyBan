@@ -23,10 +23,10 @@ class AdminCommand(private val plugin: AnyBan) : Command("anyBan", "anyban.admin
         sender.sendMessage(getMessage(plugin.config, "message.noSuchCommand"))
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String>? {
+    override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
             listOf("reload")
                 .filter { it.startsWith(args[0]) }
-        } else null
+        } else listOf()
     }
 }
