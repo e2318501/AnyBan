@@ -10,7 +10,7 @@ inline fun <reified T> loadList(mapper: ObjectMapper, parent: File, jsonFileName
     try {
         parent.mkdir()
         if (jsonFile.exists()) {
-            return mapper.readValue(jsonFile, object: TypeReference<List<T>>() {})
+            return mapper.readValue(jsonFile, object : TypeReference<List<T>>() {})
         }
         return listOf()
     } catch (e: IOException) {
