@@ -18,10 +18,10 @@ Some commands have the same name with an "a" prefix as in Spigot.
 
 | Command                                       | Permission node            | Description                                                           |
 |-----------------------------------------------|----------------------------|-----------------------------------------------------------------------|
-| `/aban <player>`                              | `anyban.command.ban`       | Bans a player                                                         |
+| `/aban <player> [reason]`                     | `anyban.command.ban`       | Bans a player                                                         |
 | `/aunban <player>`, `/apardon <players>`      | `anyban.command.pardon`    | Unbans a player                                                       |
 | `/aisban <player>`                            | `anyban.command.isban`     | Shows whether the player is banned or not, and more info if banned    |
-| `/aban-ip <player>`                           | `anyban.command.ban-ip`    | Bans a player by his/her IP                                           |
+| `/aban-ip <player> [reason]`                  | `anyban.command.ban-ip`    | Bans a player by his/her IP                                           |
 | `/aunban-ip <player>`, `/apardon-ip <player>` | `anyban.command.pardon-ip` | Unbans a player banned by his/her IP                                  |
 | `/aisban-ip <player>`                         | `anyban.command.isban-ip`  | Shows whether the player is ip-banned or not, and more info if banned |
 | `/anyban reload`                              | `anyban.admin`             | Reloads a config from `config.yml`                                    |                                          
