@@ -28,8 +28,11 @@ class AnyBan : Plugin() {
     var userIpList: List<UserIp> = listOf()
     val mapper = jacksonObjectMapper()
 
-    override fun onEnable() {
+    init {
         mapper.enable(SerializationFeature.INDENT_OUTPUT)
+    }
+
+    override fun onEnable() {
         config = loadConfig(this)
         loadData()
         register()
@@ -40,10 +43,10 @@ class AnyBan : Plugin() {
     }
 
     fun loadData() {
-        bannedPlayerList = loadList(BannedPlayer::class.java, mapper, dataFolder, bannedPlayerListFileName)
-        userUuidList = loadList(UserUuid::class.java, mapper, dataFolder, userUuidListFileName)
-        bannedIpList = loadList(BannedIp::class.java, mapper, dataFolder, bannedIpListFileName)
-        userIpList = loadList(UserIp::class.java, mapper, dataFolder, userIpListFileName)
+        bannedPlayerList = loadList<BannedPlayer>(mapper, dataFolder, bannedPlayerListFileName)
+        userUuidList = loadList<UserUuid>(mapper, dataFolder, userUuidListFileName)
+        bannedIpList = loadList<BannedIp>(mapper, dataFolder, bannedIpListFileName)
+        userIpList = loadList<UserIp>(mapper, dataFolder, userIpListFileName)
     }
 
     fun saveData() {
