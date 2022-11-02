@@ -8,7 +8,7 @@ import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.plugin.Command
 import net.md_5.bungee.api.plugin.TabExecutor
 
-class IsBanIpCommand(private val plugin: AnyBan) : Command("aisban-ip", "anyban.command.isban"), TabExecutor {
+class IsBanIpCommand(private val plugin: AnyBan) : Command("aisban-ip", "anyban.command.isban-ip"), TabExecutor {
     override fun execute(sender: CommandSender, args: Array<String>) {
         if (args.isEmpty()) {
             sender.sendMessage(getMessage(plugin.config, "message.invalidSyntax"))

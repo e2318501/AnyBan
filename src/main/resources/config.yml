@@ -16,5 +16,5 @@ message:
 defaultBanReason: Banned by an operator.
 
 # Installing Floodgate is required for this setting.
-# Turn this true, and you can ban a Floodgate player who has never joined the server.
-enabledFloodgate: false
+# Turn this true, and you can ban a Floodgate player who has never joined a network.
+floodgateEnabled: false

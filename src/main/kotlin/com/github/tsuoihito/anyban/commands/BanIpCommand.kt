@@ -12,7 +12,7 @@ import net.md_5.bungee.api.plugin.Command
 import net.md_5.bungee.api.plugin.TabExecutor
 import java.util.concurrent.CompletableFuture
 
-class BanIpCommand(private val plugin: AnyBan) : Command("aban-ip", "anyban.command.ban.ip"), TabExecutor {
+class BanIpCommand(private val plugin: AnyBan) : Command("aban-ip", "anyban.command.ban-ip"), TabExecutor {
     override fun execute(sender: CommandSender, args: Array<String>) {
         if (args.isEmpty()) {
             sender.sendMessage(getMessage(plugin.config, "message.invalidSyntax"))

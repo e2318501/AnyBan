@@ -7,8 +7,8 @@ import java.net.URL
 import java.util.*
 import java.util.concurrent.ExecutionException
 
-fun fetchUuid(mapper: ObjectMapper, name: String, enabledFloodgate: Boolean): UUID? {
-    return if (!enabledFloodgate) {
+fun fetchUuid(mapper: ObjectMapper, name: String, floodgateEnabled: Boolean): UUID? {
+    return if (!floodgateEnabled) {
         getUUIDFromMojang(mapper, name)
     } else if (isFloodgatePlayer(name)) {
         getUUIDFromFloodgate(name)

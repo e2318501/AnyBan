@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.Command
 import net.md_5.bungee.api.plugin.TabExecutor
 import java.util.concurrent.CompletableFuture
 
-class UnBanIpCommand(private val plugin: AnyBan) : Command("aunban-ip", "anyban.command.unban", "apardon-ip"),
+class UnBanIpCommand(private val plugin: AnyBan) : Command("aunban-ip", "anyban.command.pardon-ip", "apardon-ip"),
     TabExecutor {
     override fun execute(sender: CommandSender, args: Array<String>) {
         if (args.isEmpty()) {
