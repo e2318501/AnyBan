@@ -21,14 +21,16 @@ private fun getUUIDFromMojang(mapper: ObjectMapper, name: String): UUID? {
     return try {
         val url = URL("https://api.mojang.com/users/profiles/minecraft/${name}")
         val uuidAsString = mapper.readTree(url).get("id")?.toString()?.replace("\"", "")
-        if (uuidAsString == "null") UUID.fromString("0-0-0-0-0") else UUID.fromString(
-            StringBuffer(uuidAsString)
-                .insert(8, "-")
-                .insert(13, "-")
-                .insert(18, "-")
-                .insert(23, "-")
-                .toString()
-        )
+        uuidAsString?.let {
+            UUID.fromString(
+                StringBuffer(it)
+                    .insert(8, "-")
+                    .insert(13, "-")
+                    .insert(18, "-")
+                    .insert(23, "-")
+                    .toString()
+            )
+        }
     } catch (e: IOException) {
         e.printStackTrace()
         null
