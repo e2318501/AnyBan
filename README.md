@@ -24,11 +24,11 @@ Some commands have the same name with an "a" prefix as in Spigot.
 | `/aban-ip <player> [reason]`                  | `anyban.command.ban-ip`    | Bans a player by his/her IP                                           |
 | `/aunban-ip <player>`, `/apardon-ip <player>` | `anyban.command.pardon-ip` | Unbans a player banned by his/her IP                                  |
 | `/aisban-ip <player>`                         | `anyban.command.isban-ip`  | Shows whether the player is ip-banned or not, and more info if banned |
-| `/anyban reload`                              | `anyban.admin`             | Reloads a config from `config.yml`                                    |                                          
+| `/anyban reload`                              | `anyban.admin`             | Reloads all data from files                                           |                                          
 
-### Data
+### Importing Data
 
-You can import data of ban/ban-ip in Spigot by copying `banned-players.json` and `banned-ips.json` into the folder of the plugin. Make sure that a proxy is stopping while copying.
+You can import data of ban/ban-ip in Spigot by copying `banned-players.json` and `banned-ips.json` into the folder of the plugin. After copying, execute `/anyban reload` to load the data.
 
 ### Floodgate support
 

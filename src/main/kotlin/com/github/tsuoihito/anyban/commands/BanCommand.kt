@@ -25,10 +25,7 @@ class BanCommand(private val plugin: AnyBan) : Command("aban", "anyban.command.b
             val fetchedUuid = fetchUuid(plugin.mapper, name, plugin.config?.getBoolean("floodgateEnabled") ?: false)
             if (fetchedUuid == null) {
                 sender.sendMessage(getMessage(plugin.config, "message.invalidPlayerName") {
-                    it.replace(
-                        "%name%",
-                        args[0]
-                    )
+                    it.replace("%name%", name)
                 })
                 return
             }

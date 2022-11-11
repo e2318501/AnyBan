@@ -23,7 +23,7 @@ class BanIpCommand(private val plugin: AnyBan) : Command("aban-ip", "anyban.comm
 
         val ips = getUserIp(plugin.userIpList, name)?.ips
         if (ips == null) {
-            sender.sendMessage(getMessage(plugin.config, "message.ipNotFound") { it.replace("%name%", args[0]) })
+            sender.sendMessage(getMessage(plugin.config, "message.ipNotFound") { it.replace("%name%", name) })
             return
         }
         ips.forEach {

@@ -17,7 +17,7 @@ class UnBanCommand(private val plugin: AnyBan) : Command("aunban", "anyban.comma
         }
         val name = args[0]
         plugin.bannedPlayerList = getRemovedBannedPlayerList(plugin.bannedPlayerList, name)
-        sender.sendMessage(getMessage(plugin.config, "message.unBanSuccess") { it.replace("%name%", args[0]) })
+        sender.sendMessage(getMessage(plugin.config, "message.unBanSuccess") { it.replace("%name%", name) })
 
         CompletableFuture.runAsync { plugin.saveData() }
     }

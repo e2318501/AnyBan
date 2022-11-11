@@ -16,7 +16,6 @@ class UnBanIpCommand(private val plugin: AnyBan) : Command("aunban-ip", "anyban.
             sender.sendMessage(getMessage(plugin.config, "message.invalidSyntax"))
             return
         }
-
         val name = args[0]
         plugin.bannedIpList = getRemovedBannedIpList(plugin.bannedIpList, plugin.userIpList, name)
         sender.sendMessage(getMessage(plugin.config, "message.unBanSuccess") { it.replace("%name%", name) })

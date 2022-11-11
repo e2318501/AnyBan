@@ -7,7 +7,7 @@ import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.plugin.Command
 import net.md_5.bungee.api.plugin.TabExecutor
 
-class AdminCommand(private val plugin: AnyBan) : Command("anyBan", "anyban.admin"), TabExecutor {
+class AdminCommand(private val plugin: AnyBan) : Command("anyban", "anyban.admin"), TabExecutor {
     override fun execute(sender: CommandSender, args: Array<String>) {
         if (args.isEmpty()) {
             sender.sendMessage(getMessage(plugin.config, "message.invalidSyntax"))
@@ -16,6 +16,7 @@ class AdminCommand(private val plugin: AnyBan) : Command("anyBan", "anyban.admin
         when (args[0]) {
             "reload" -> {
                 plugin.config = loadConfig(plugin)
+                plugin.loadData()
                 sender.sendMessage(getMessage(plugin.config, "message.configReloaded"))
                 return
             }
@@ -25,8 +26,7 @@ class AdminCommand(private val plugin: AnyBan) : Command("anyBan", "anyban.admin
 
     override fun onTabComplete(sender: CommandSender, args: Array<String>): Iterable<String> {
         return if (args.size == 1) {
-            listOf("reload")
-                .filter { it.startsWith(args[0]) }
+            listOf("reload").filter { it.startsWith(args[0]) }
         } else listOf()
     }
 }

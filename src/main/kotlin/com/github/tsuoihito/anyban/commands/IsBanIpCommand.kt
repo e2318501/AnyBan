@@ -17,13 +17,13 @@ class IsBanIpCommand(private val plugin: AnyBan) : Command("aisban-ip", "anyban.
 
         val info = getBannedIp(plugin.bannedIpList, plugin.userIpList, name)
         if (info == null) {
-            sender.sendMessage(getMessage(plugin.config, "message.isNotBanned") { it.replace("%name%", args[0]) })
+            sender.sendMessage(getMessage(plugin.config, "message.isNotBanned") { it.replace("%name%", name) })
             return
         }
         sender.sendMessage(
             getMessage(plugin.config, "message.isBanned") {
                 it
-                    .replace("%name%", args[0])
+                    .replace("%name%", name)
                     .replace("%reason%", info.reason)
                     .replace("%time%", info.created)
                     .replace("%source%", info.source)

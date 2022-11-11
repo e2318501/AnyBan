@@ -38,9 +38,7 @@ class AnyBan : Plugin() {
         register()
     }
 
-    override fun onDisable() {
-        saveData()
-    }
+    override fun onDisable() {}
 
     fun loadData() {
         bannedPlayerList = loadList<BannedPlayer>(mapper, dataFolder, bannedPlayerListFileName)
