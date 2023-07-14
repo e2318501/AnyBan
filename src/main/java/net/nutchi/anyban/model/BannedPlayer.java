@@ -1,15 +1,11 @@
 package net.nutchi.anyban.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
 
 import java.util.UUID;
 
 @Getter
-@Builder
-@Jacksonized
 @RequiredArgsConstructor
 public class BannedPlayer {
     private final UUID uuid;

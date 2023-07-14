@@ -1,13 +1,9 @@
 package net.nutchi.anyban.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
 
 @Getter
-@Builder
-@Jacksonized
 @RequiredArgsConstructor
 public class BannedIp {
     private final String ip;

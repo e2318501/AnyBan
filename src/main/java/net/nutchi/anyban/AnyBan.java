@@ -1,8 +1,7 @@
 package net.nutchi.anyban;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -12,9 +11,9 @@ import net.nutchi.anyban.model.BannedIp;
 import net.nutchi.anyban.model.BannedPlayer;
 import net.nutchi.anyban.model.CachedPlayer;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -22,9 +21,13 @@ public final class AnyBan extends Plugin {
     private final List<BannedPlayer> bannedPlayers = new ArrayList<>();
     private final List<BannedIp> bannedIps = new ArrayList<>();
     private final List<CachedPlayer> cachedPlayers = new ArrayList<>();
+
     private final File bannedPlayersFile = new File(getDataFolder(), "banned-players.json");
     private final File bannedIpsFile = new File(getDataFolder(), "banned-ips.json");
     private final File cachedPlayersFile = new File(getDataFolder(), "usercache.json");
+
+    private final Gson gson = new Gson();
+    private final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public void onEnable() {
@@ -46,38 +49,24 @@ public final class AnyBan extends Plugin {
     }
 
     private void loadBannedPlayers() {
-        try {
-            if (bannedPlayersFile.exists()) {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                bannedPlayers.addAll(mapper.readValue(bannedPlayersFile, new TypeReference<List<BannedPlayer>>() {
-                }));
-            }
+        try (Reader reader = new FileReader(bannedPlayersFile)) {
+            bannedPlayers.addAll(Arrays.asList(gson.fromJson(reader, BannedPlayer[].class)));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     private void loadBannedIps() {
-        try {
-            if (bannedIpsFile.exists()) {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                bannedIps.addAll(mapper.readValue(bannedIpsFile, new TypeReference<List<BannedIp>>() {
-                }));
-            }
+        try (Reader reader = new FileReader(bannedIpsFile)) {
+            bannedIps.addAll(Arrays.asList(gson.fromJson(reader, BannedIp[].class)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void loadCachedPlayers() {
-        try {
-            if (cachedPlayersFile.exists()) {
-                ObjectMapper mapper = new ObjectMapper();
-                cachedPlayers.addAll(mapper.readValue(cachedPlayersFile, new TypeReference<List<CachedPlayer>>() {
-                }));
-            }
+        try (Reader reader = new FileReader(cachedPlayersFile)) {
+            cachedPlayers.addAll(Arrays.asList(gson.fromJson(reader, CachedPlayer[].class)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,10 +77,8 @@ public final class AnyBan extends Plugin {
     }
 
     private void saveBannedPlayers() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(bannedPlayersFile, bannedPlayers);
+        try (Writer writer = new FileWriter(bannedPlayersFile)) {
+            prettyGson.toJson(bannedPlayers.toArray(), writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,10 +89,8 @@ public final class AnyBan extends Plugin {
     }
 
     private void saveBannedIps() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(bannedIpsFile, bannedIps);
+        try (Writer writer = new FileWriter(bannedIpsFile)) {
+            prettyGson.toJson(bannedIps.toArray(), writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,10 +101,8 @@ public final class AnyBan extends Plugin {
     }
 
     private void saveCachedPlayers() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(cachedPlayersFile, cachedPlayers);
+        try (Writer writer = new FileWriter(cachedPlayersFile)) {
+            gson.toJson(cachedPlayers.toArray(), writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
