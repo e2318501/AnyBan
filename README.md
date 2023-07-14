@@ -1,35 +1,34 @@
 # AnyBan
 
-AnyBan is a punishment plugin for BungeeCord. It is designed to be like a BungeeCord version of the default ban system in Spigot.
+AnyBan is a punishment plugin for BungeeCord, and designed to be like a BungeeCord version of the vanilla punishment system in Spigot.
 
 ## Features
 
-- Full compatible with ban data in Spigot
-- Offline ban/ip-ban
-- Never-joined players support
-- Floodgate players support
 - Rich tab completion
+- Full compatible with data in Spigot
 
 ## Usage
 
 ### Commands
 
-Some commands have the same name with an "a" prefix as in Spigot.
+All commands have the same name as vanilla Minecraft one, with an "a" prefix.
 
-| Command                                       | Permission node            | Description                                                           |
-|-----------------------------------------------|----------------------------|-----------------------------------------------------------------------|
-| `/aban <player> [reason]`                     | `anyban.command.ban`       | Bans a player                                                         |
-| `/aunban <player>`, `/apardon <players>`      | `anyban.command.pardon`    | Unbans a player                                                       |
-| `/aisban <player>`                            | `anyban.command.isban`     | Shows whether the player is banned or not, and more info if banned    |
-| `/aban-ip <player> [reason]`                  | `anyban.command.ban-ip`    | Bans a player by his/her IP                                           |
-| `/aunban-ip <player>`, `/apardon-ip <player>` | `anyban.command.pardon-ip` | Unbans a player banned by his/her IP                                  |
-| `/aisban-ip <player>`                         | `anyban.command.isban-ip`  | Shows whether the player is ip-banned or not, and more info if banned |
-| `/anyban reload`                              | `anyban.admin`             | Reloads all data from files                                           |                                          
+| Command                            | Permission node            | Description                                     |
+|------------------------------------|----------------------------|-------------------------------------------------|
+| `/aban <player> [<reason>]`        | `anyban.command.ban`       | Adds the player into the proxy blacklist        |
+| `/aban-ip <player\|ip> [<reason>]` | `anyban.command.ban-ip`    | Adds the IP address into the proxy blacklist    |
+| `/abanlist [<players\|ips>]`       | `anyban.command.banlist`   | Displays the proxy blacklist                    |
+| `/apardon <player>`                | `anyban.command.pardon`    | Removes the player from proxy blacklist         |
+| `/apardon-ip <ip>`                 | `anyban.command.pardon-ip` | Removes the IP address from the proxy blacklist |
 
-### Importing Data
+### Import data from Spigot
 
-You can import data of ban/ban-ip in Spigot by copying `banned-players.json` and `banned-ips.json` into the folder of the plugin. After copying, execute `/anyban reload` to load the data.
+You can import following files from your Spigot server:
 
-### Floodgate support
+- `banned-players.json`
+- `banned-ips.json`
+- `usercache.json`
 
-If you want to ban a Floodgate player who has never joined a network, make sure that Floodgate is installed in BungeeCord and turn `floodgateEnabled` in `config.yml` to true.
+`banned-players.json` and `banned-ips.json` are bans data, and `usercache.json` is a cache file which stores players' UUID and can be used in tab completion of this plugin.
+
+Make sure that a proxy is stopping while copying these files.
