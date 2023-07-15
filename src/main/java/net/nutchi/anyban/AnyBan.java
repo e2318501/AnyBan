@@ -50,14 +50,16 @@ public final class AnyBan extends Plugin {
 
     private void loadBannedPlayers() {
         try (Reader reader = new FileReader(bannedPlayersFile)) {
+            bannedPlayers.clear();
             bannedPlayers.addAll(Arrays.asList(gson.fromJson(reader, BannedPlayer[].class)));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
     private void loadBannedIps() {
         try (Reader reader = new FileReader(bannedIpsFile)) {
+            bannedIps.clear();
             bannedIps.addAll(Arrays.asList(gson.fromJson(reader, BannedIp[].class)));
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,6 +68,7 @@ public final class AnyBan extends Plugin {
 
     private void loadCachedPlayers() {
         try (Reader reader = new FileReader(cachedPlayersFile)) {
+            cachedPlayers.clear();
             cachedPlayers.addAll(Arrays.asList(gson.fromJson(reader, CachedPlayer[].class)));
         } catch (IOException e) {
             e.printStackTrace();
