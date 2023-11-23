@@ -1,20 +1,14 @@
 package net.nutchi.anyban.command;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import net.nutchi.anyban.AnyBan;
-import net.nutchi.anyban.model.BannedPlayer;
-import net.nutchi.anyban.model.CachedPlayer;
-import net.nutchi.anyban.util.DateManager;
+import net.nutchi.anyban.util.Message;
+import net.nutchi.anyban.util.TabCompleteUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class BanCommand extends Command implements TabExecutor {
     private final AnyBan plugin;
@@ -28,43 +22,37 @@ public class BanCommand extends Command implements TabExecutor {
     public void execute(CommandSender sender, String[] args) {
         if (args.length >= 1) {
             String name = args[0];
-            String reason;
-            if (args.length == 1) {
-                reason = "Banned by an operator.";
-            } else {
-                reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-            }
-            String source = sender instanceof ProxiedPlayer ? sender.getName() : "Server";
+            String reason = args.length == 1 ? Message.DEFAULT_BAN_REASON.text() : String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+            String source = sender instanceof ProxiedPlayer ? sender.getName() : Message.CONSOLE_SOURCE.text();
 
-            Optional<CachedPlayer> cachedPlayer = plugin.getCachedPlayers().stream().filter(p -> p.getName().equalsIgnoreCase(name)).findAny();
-            if (cachedPlayer.isPresent()) {
-                if (plugin.getBannedPlayers().stream().noneMatch(p -> p.getName().equalsIgnoreCase(name))) {
-                    plugin.getBannedPlayers().add(new BannedPlayer(cachedPlayer.get().getUuid(), name, DateManager.getCurrent(), source, "forever", reason));
-                    plugin.saveBannedPlayersAsync();
+            Optional<UUID> uuid = plugin.getCachedPlayerManager().getUuid(name);
+            if (uuid.isPresent()) {
+                if (!plugin.getBannedPlayerManager().isBanned(name)) {
+                    plugin.getBannedPlayerManager().add(uuid.get(), name, source, reason);
 
-                    sender.sendMessage(new TextComponent("Banned " + name + ": " + reason));
+                    sender.sendMessage(Message.BAN_COMMAND.component(name, reason));
 
                     ProxiedPlayer proxiedPlayer = plugin.getProxy().getPlayer(name);
                     if (proxiedPlayer != null) {
-                        proxiedPlayer.disconnect(new TextComponent("You are banned from this server"));
+                        proxiedPlayer.disconnect(Message.YOU_ARE_BANNED.component(reason));
                     }
                 } else {
-                    sender.sendMessage(new TextComponent(ChatColor.RED + "Nothing changed. The player is already banned"));
+                    sender.sendMessage(Message.PLAYER_ALREADY_BANNED.component());
                 }
             } else {
-                sender.sendMessage(new TextComponent(ChatColor.RED + "That player does not exist"));
+                sender.sendMessage(Message.PLAYER_NOT_FOUND.component());
             }
         } else {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incomplete command"));
+            sender.sendMessage(Message.INCOMPLETE_COMMAND.component());
         }
     }
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return plugin.getCachedPlayers().stream().map(CachedPlayer::getName).filter(n -> n.startsWith(args[0])).collect(Collectors.toList());
+            return TabCompleteUtil.filter(plugin.getCachedPlayerManager().getNames(), args[0]);
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

@@ -1,4 +1,4 @@
-package net.nutchi.anyban.model;
+package net.nutchi.anyban;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,15 +1,13 @@
 package net.nutchi.anyban.command;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import net.nutchi.anyban.AnyBan;
-import net.nutchi.anyban.model.BannedPlayer;
+import net.nutchi.anyban.util.Message;
+import net.nutchi.anyban.util.TabCompleteUtil;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 public class PardonCommand extends Command implements TabExecutor {
     private final AnyBan plugin;
@@ -24,27 +22,26 @@ public class PardonCommand extends Command implements TabExecutor {
         if (args.length == 1) {
             String name = args[0];
 
-            if (plugin.getBannedPlayers().stream().anyMatch(p -> p.getName().equalsIgnoreCase(name))) {
-                plugin.getBannedPlayers().removeIf(p -> p.getName().equalsIgnoreCase(name));
-                plugin.saveBannedPlayersAsync();
+            if (plugin.getBannedPlayerManager().isBanned(name)) {
+                plugin.getBannedPlayerManager().remove(name);
 
-                sender.sendMessage(new TextComponent("Unbanned " + name));
+                sender.sendMessage(Message.UNBAN_COMMAND.component(name));
             } else {
-                sender.sendMessage(new TextComponent(ChatColor.RED + "Nothing changed. The player isn't banned"));
+                sender.sendMessage(Message.IS_NOT_BANNED.component());
             }
         } else if (args.length < 1) {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incomplete command"));
+            sender.sendMessage(Message.INCOMPLETE_COMMAND.component());
         } else {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incorrect argument for command"));
+            sender.sendMessage(Message.INCORRECT_ARGUMENT.component());
         }
     }
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return plugin.getBannedPlayers().stream().map(BannedPlayer::getName).filter(n -> n.startsWith(args[0])).collect(Collectors.toList());
+            return TabCompleteUtil.filter(plugin.getBannedPlayerManager().getNames(), args[0]);
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

@@ -1,20 +1,22 @@
 package net.nutchi.anyban.command;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import net.nutchi.anyban.AnyBan;
+import net.nutchi.anyban.util.Message;
+import net.nutchi.anyban.util.TabCompleteUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BanListCommand extends Command implements TabExecutor {
     private final AnyBan plugin;
+    private static final String PLAYERS = "players";
+    private static final String IPS = "ips";
 
     public BanListCommand(AnyBan plugin) {
         super("abanlist", "anyban.command.banlist");
@@ -23,45 +25,47 @@ public class BanListCommand extends Command implements TabExecutor {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        List<String> playerDescriptions = plugin.getBannedPlayers().stream().map(p -> p.getName() + " was banned by " + p.getSource() + ": " + p.getReason()).collect(Collectors.toList());
-        List<String> ipDescriptions = plugin.getBannedIps().stream().map(i -> i.getIp() + " was banned by " + i.getSource() + ": " + i.getReason()).collect(Collectors.toList());
-        List<String> bannedDescriptions = Stream.of(playerDescriptions, ipDescriptions).flatMap(Collection::stream).collect(Collectors.toList());
+        List<TextComponent> playersDescriptions = plugin.getBannedPlayerManager().getDescriptions();
+        List<TextComponent> ipsDescriptions = plugin.getBannedIpManager().getDescriptions();
 
-        String playersInfo = String.join("\n", playerDescriptions);
-        String ipsInfo = String.join("\n", ipDescriptions);
-        String bannedInfo = String.join("\n", bannedDescriptions);
+        List<TextComponent> descriptions = new ArrayList<>();
+        int count;
 
         if (args.length == 0) {
-            String header = getHeader(playerDescriptions.size() + ipDescriptions.size());
-            String message = header + bannedInfo;
-            sender.sendMessage(new TextComponent(message));
-        } else if (args.length == 1) {
-            if (args[0].equals("players")) {
-                String header = getHeader(playerDescriptions.size());
-                String message = header + playersInfo;
-                sender.sendMessage(new TextComponent(message));
-            } else if (args[0].equals("ips")) {
-                String header = getHeader(ipDescriptions.size());
-                String message = header + ipsInfo;
-                sender.sendMessage(new TextComponent(message));
-            } else {
-                sender.sendMessage(new TextComponent(ChatColor.RED + "Incorrect argument for command"));
-            }
+            count = playersDescriptions.size() + ipsDescriptions.size();
+            descriptions.addAll(playersDescriptions);
+            descriptions.addAll(ipsDescriptions);
+        } else if (args.length == 1 && args[0].equals(PLAYERS)) {
+            count = playersDescriptions.size();
+            descriptions.addAll(playersDescriptions);
+        } else if (args.length == 1 && args[0].equals(IPS)) {
+            count = ipsDescriptions.size();
+            descriptions.addAll(ipsDescriptions);
         } else {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incorrect argument for command"));
+            sender.sendMessage(Message.INCORRECT_ARGUMENT.component());
+            return;
         }
-    }
 
-    private String getHeader(int bans) {
-        return bans == 0 ? "There are no bans" : "There are " + bans + " ban(s):\n";
+        TextComponent header = count != 0 ? Message.BAN_LIST_HEADER_BANS.component(count) : Message.BAN_LIST_HEADER_NO_BANS.component();
+        descriptions.add(0, header);
+
+        TextComponent message = new TextComponent();
+        for (int i = 0; i < descriptions.size(); i++) {
+            message.addExtra(descriptions.get(i));
+            if (i != descriptions.size() - 1) {
+                message.addExtra("\n");
+            }
+        }
+
+        sender.sendMessage(message);
     }
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return Stream.of("players", "ips").filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+            return TabCompleteUtil.filter(Arrays.asList(PLAYERS, IPS), args[0]);
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

@@ -1,16 +1,14 @@
 package net.nutchi.anyban.command;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import net.nutchi.anyban.AnyBan;
-import net.nutchi.anyban.model.BannedIp;
+import net.nutchi.anyban.util.Message;
 import net.nutchi.anyban.util.IpChecker;
+import net.nutchi.anyban.util.TabCompleteUtil;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 public class PardonIpCommand extends Command implements TabExecutor {
     private final AnyBan plugin;
@@ -26,30 +24,29 @@ public class PardonIpCommand extends Command implements TabExecutor {
             String ip = args[0];
 
             if (IpChecker.isIp(ip)) {
-                if (plugin.getBannedIps().stream().anyMatch(p -> p.getIp().equals(ip))) {
-                    plugin.getBannedIps().removeIf(p -> p.getIp().equals(ip));
-                    plugin.saveBannedIpsAsync();
+                if (plugin.getBannedIpManager().isBanned(ip)) {
+                    plugin.getBannedIpManager().remove(ip);
 
-                    sender.sendMessage(new TextComponent("Unbanned IP " + ip));
+                    sender.sendMessage(Message.UNBAN_IP_COMMAND.component(ip));
                 } else {
-                    sender.sendMessage(new TextComponent(ChatColor.RED + "Nothing changed. That IP isn't banned"));
+                    sender.sendMessage(Message.IS_NOT_BANNED_IP.component());
                 }
             } else {
-                sender.sendMessage(new TextComponent(ChatColor.RED + "Invalid IP address"));
+                sender.sendMessage(Message.INVALID_IP.component());
             }
         } else if (args.length < 1) {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incomplete command"));
+            sender.sendMessage(Message.INCOMPLETE_COMMAND.component());
         } else {
-            sender.sendMessage(new TextComponent(ChatColor.RED + "Incorrect argument for command"));
+            sender.sendMessage(Message.INCORRECT_ARGUMENT.component());
         }
     }
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return plugin.getBannedIps().stream().map(BannedIp::getIp).filter(ip -> ip.startsWith(args[0])).collect(Collectors.toList());
+            return TabCompleteUtil.filter(plugin.getBannedIpManager().getIps(), args[0]);
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }
