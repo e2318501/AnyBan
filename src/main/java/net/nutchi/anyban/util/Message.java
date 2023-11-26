@@ -33,11 +33,11 @@ public enum Message {
         this.message = message;
     }
 
-    public String text() {
-        return message;
+    public String text(Object... args) {
+        return String.format(message, args);
     }
 
     public TextComponent component(Object... args) {
-        return new TextComponent(String.format(message, args));
+        return new TextComponent(text(args));
     }
 }
