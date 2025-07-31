@@ -1,4 +1,4 @@
-package net.nutchi.anyban.util;
+package com.github.e2318501.anyban.util;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;

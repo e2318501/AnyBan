@@ -1,4 +1,4 @@
-package net.nutchi.anyban.util;
+package com.github.e2318501.anyban.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

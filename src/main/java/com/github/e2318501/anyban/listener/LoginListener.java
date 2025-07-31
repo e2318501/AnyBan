@@ -1,11 +1,11 @@
-package net.nutchi.anyban.listener;
+package com.github.e2318501.anyban.listener;
 
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.nutchi.anyban.AnyBan;
-import net.nutchi.anyban.util.Message;
+import com.github.e2318501.anyban.AnyBan;
+import com.github.e2318501.anyban.util.Message;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;

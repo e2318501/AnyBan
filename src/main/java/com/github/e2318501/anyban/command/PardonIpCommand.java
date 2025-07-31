@@ -1,12 +1,12 @@
-package net.nutchi.anyban.command;
+package com.github.e2318501.anyban.command;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.nutchi.anyban.AnyBan;
-import net.nutchi.anyban.util.Message;
-import net.nutchi.anyban.util.IpChecker;
-import net.nutchi.anyban.util.TabCompleteUtil;
+import com.github.e2318501.anyban.AnyBan;
+import com.github.e2318501.anyban.util.Message;
+import com.github.e2318501.anyban.util.IpChecker;
+import com.github.e2318501.anyban.util.TabCompleteUtil;
 
 import java.util.Collections;
 

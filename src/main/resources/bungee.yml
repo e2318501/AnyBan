@@ -1,5 +1,5 @@
 name: AnyBan
 version: '${project.version}'
-main: net.nutchi.anyban.AnyBan
-author: Nutchi
+main: com.github.e2318501.anyban.AnyBan
+author: e2318501
 description: A simple ban plugin for BungeeCord

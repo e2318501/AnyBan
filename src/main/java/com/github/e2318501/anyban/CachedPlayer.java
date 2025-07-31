@@ -1,4 +1,4 @@
-package net.nutchi.anyban;
+package com.github.e2318501.anyban;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

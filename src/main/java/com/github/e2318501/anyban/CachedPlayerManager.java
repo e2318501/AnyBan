@@ -1,8 +1,8 @@
-package net.nutchi.anyban;
+package com.github.e2318501.anyban;
 
 
 import lombok.RequiredArgsConstructor;
-import net.nutchi.anyban.util.DateManager;
+import com.github.e2318501.anyban.util.DateManager;
 
 import java.util.ArrayList;
 import java.util.List;

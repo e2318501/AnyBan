@@ -111,3 +111,9 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+# Eclipse JDT Language Server
+.classpath
+.factorypath
+.project
+.settings/

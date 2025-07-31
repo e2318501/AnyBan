@@ -1,9 +1,9 @@
-package net.nutchi.anyban;
+package com.github.e2318501.anyban;
 
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.nutchi.anyban.util.DateManager;
-import net.nutchi.anyban.util.Message;
+import com.github.e2318501.anyban.util.DateManager;
+import com.github.e2318501.anyban.util.Message;
 
 import java.util.ArrayList;
 import java.util.List;

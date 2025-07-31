@@ -1,10 +1,10 @@
-package net.nutchi.anyban;
+package com.github.e2318501.anyban;
 
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
-import net.nutchi.anyban.command.*;
-import net.nutchi.anyban.listener.LoginListener;
+import com.github.e2318501.anyban.command.*;
+import com.github.e2318501.anyban.listener.LoginListener;
 
 @Getter
 public final class AnyBan extends Plugin {
